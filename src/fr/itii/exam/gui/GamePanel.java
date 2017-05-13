@@ -14,13 +14,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import fr.itii.exam.constants.GameColor;
 import fr.itii.exam.constants.GameState;
 import fr.itii.exam.constants.OutPutMessages;
 import fr.itii.exam.utils.IntInputVerifier;
 
 /**
  * Main game panel with fields, labels and text area
- *
  */
 public final class GamePanel
     extends JPanel
@@ -48,11 +48,7 @@ public final class GamePanel
 
     public GamePanel ()
     {
-        /////
-//        setVisible( true );
-        /////
-        
-        GridBagLayout gbl=  new GridBagLayout();
+        final GridBagLayout gbl=  new GridBagLayout();
         
         this.setLayout( gbl );
 
@@ -61,40 +57,52 @@ public final class GamePanel
         GridBagConstraints c = new GridBagConstraints();
 
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth= 1;
-        c.weightx = 0.4;
+        c.gridwidth= 2;
+        c.weightx = 1;
         c.weighty = 0.0;
         c.gridx = 0;
-        c.gridy = row++;
+        c.gridy = row;
         mProposalLabel.setHorizontalAlignment( SwingConstants.RIGHT );
         add( mProposalLabel, c );
 
-        c.gridx = 1;
+        c.gridx = 2;
+        c.gridwidth= 1;
+        c.weightx = 1;
+        c.gridy = row;
         mMinLabel.setHorizontalAlignment( SwingConstants.RIGHT );
         add( mMinLabel, c );
 
-        c.gridx = 2;
+        c.gridx = 3;
+        c.gridwidth= 1;
+        c.weightx = 1;
+        c.gridy = row;
         add( getProposalTextField(), c );
 
-        c.gridx = 3;
+        c.gridx = 4;
+        c.gridwidth= 1;
+        c.weightx = 1;
+        c.gridy = row;
         mMaxLabel.setHorizontalAlignment( SwingConstants.LEFT );
         add( mMaxLabel , c );
 
 
         c.fill = GridBagConstraints.BOTH;
-        c.gridwidth= 0;
+        c.gridwidth= 5;
         c.gridheight= 0;
         c.weightx = 1;
         c.weighty = 1;
         c.gridx = 0;
-        c.gridy = row++;
+        c.gridy = ++row;
 
 
         add( getResultTextArea(), c );
 
         setBackground( Color.gray );
 
-        initialize( GameState.STARTING );
+        initialize( GameState.START );
+        
+        repaint();
+        validate();
     }
 
     public JTextField getProposalTextField()
@@ -102,9 +110,9 @@ public final class GamePanel
         if ( mProposalTextField == null )
         {
             mProposalTextField=  new JTextField("");
-
-//            mProposalTextField.setEditable(false);
-            IntInputVerifier<JTextField> inputVerifier = new IntInputVerifier<JTextField>( MIN_VALUE, MAX_VALUE );
+            
+            /** Verifier that ensures the value entered by user is correct **/
+            final IntInputVerifier<JTextField> inputVerifier=  new IntInputVerifier<JTextField>( MIN_VALUE, MAX_VALUE );
 
             mProposalTextField.setInputVerifier( inputVerifier );
 
@@ -116,7 +124,6 @@ public final class GamePanel
                 {
                     if (    ( pKey.getKeyChar() < KeyEvent.VK_0 )
                          || ( pKey.getKeyChar() > KeyEvent.VK_9   ) )
-
                     {
                         pKey.consume();
                     }
@@ -153,24 +160,36 @@ public final class GamePanel
                         }
                         else
                         {
-                            // A compléter : ni inférieur, ni supérieur ?
+                            ////////////////////////////////////////////////////
+                            // 2. A compléter et à reporter sur la copie :
+                            // 
+                            // écrire le code nécessaire afin d'afficher les messages suivants en cas de réussite
+                            // (ici l'exemple est donné pour une réussite après 11 essais) :
                             //
+                            // Found !
+                            // Number of tries : 11
+                            //
+
                             getResultTextArea().append( OutPutMessages.FOUND.getOutPutMessage() );
-                            getResultTextArea().append( OutPutMessages.TRY.getOutPutMessage( Integer.toString(TRY) ) );
+                            getResultTextArea().append( OutPutMessages.TRY.getOutPutMessage( Integer.toString( TRY ) ) );
                             
+                            ////////////////////////////////////////////////////
                             
-                            // Erase the field and disable it
-//                            mProposalTextField.setText("found");
-//                            mProposalTextField.setEnabled(false);
+
+                            ////////////////////////////////////////////////////
+                            // 3. A compléter et à reporter sur la copie :
+                            //
+                            // De même, vous devez penser à réinitialiser le Game Panel
+
+                            initialize( GameState.END );
                             
-                            initialize( GameState.ENDED );
-                            ///////
+                            ////////////////////////////////////////////////////
                         }
                         TRY ++;
                     }
                     else
                     {
-                        mResultTextArea.append( OutPutMessages.INVALID_VALUE.getOutPutMessage() );
+                        getResultTextArea().append( OutPutMessages.INVALID_VALUE.getOutPutMessage() );
                     }
                 }
             } );
@@ -192,41 +211,40 @@ public final class GamePanel
     }
 
     /**
-     * This method enable / disable some components
-     * depending if the game is being started or ended.
-     * @param pGameStarted is set to true to reinitialize the game,
-     * else false to end the game
+     * This method enables / disables some components depending on 
+     * the given game state (game is being started or ended).
+     * @param gameState is a state of the current game
      */
     public void initialize ( GameState gameState )
     {
         // A compléter : initialization des composants, des valeurs etc...
         //
+        mProposalTextField.setText("");
+
         switch( gameState )
         {
-            case STARTING :
+            case START :
                 mProposalTextField.setText("enter a value");
-
-            case RUNNING :
-                
+            case RESTART :              
                 mValueToFind=  generateValue();
                 mResultTextArea.setText("");
-                mProposalTextField.setText("");
+                mProposalTextField.setBackground( GameColor.DEFAULT_INPUT_BG.getColor() );
                 mProposalTextField.setEnabled( true );
                 TRY=0;
                 break;
-            case ENDED:
+            case END:
                 mProposalTextField.setText("found");
                 mProposalTextField.setEnabled( false );
                 break;
         }
-
+        //
         /////////////////////////////
     }
 
     /**
-     * Method that calculate a random value between 0
-     * and the MAX_VALUE
-     * @return
+     * Method that calculates a random value between 0
+     * and the MAX_VALUE allowed by the game
+     * @return a new randomly generated value
      */
     private final int generateValue()
     {

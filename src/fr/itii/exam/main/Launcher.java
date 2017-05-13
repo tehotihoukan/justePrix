@@ -8,13 +8,16 @@ import fr.itii.exam.gui.MainWindow;
  */
 public class Launcher
 {
-    // A compléter : écrire le "main" de l'application
+
+    ////////////////////////////////////////////////////
+    // 1. A compléter et à reporter sur la copie :
+    // 
+    // écrire le "main" de l'application
     //
     public static void main(String[] args)
     {
         MainWindow.getInstance();
     }
     ////////////////////////////////////////////////////
-    
 
 }

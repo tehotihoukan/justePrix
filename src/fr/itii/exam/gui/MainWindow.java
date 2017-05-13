@@ -13,20 +13,40 @@ import javax.swing.JFrame;
 import fr.itii.exam.constants.GameState;
 
 /**
- * Main fram containing the menu and the main panel itself
- *
+ * Main frame providing a menu and containing the {@link GamePanel}
+ * /!\ This MainWindow is a singleting /!\
  */
 public class MainWindow
     extends JFrame
 {
 
+    /** Used for serializing the current class. **/
+    private static final long serialVersionUID = -8550809543988259909L;
+
+    /** Unique instance of the current MainWindo (Singleton) **/
     private final static MainWindow INSTANCE=  new MainWindow();
 
+    /** Menu item for quitting the game **/
     private MenuItem mQuitMenu;
+    
+    /** Menu item for starting a new the game **/
     private MenuItem mNewGameMenu;
-
+    
+    /** Main panel contained by the ContentPane of the current MainWindow **/
     private GamePanel mGamePanel;
 
+    /**
+     * Getter on the MainWindow Singleton
+     * @return the MainWindow Singleton 
+     */
+    public static MainWindow getInstance ()
+    {
+        return INSTANCE;
+    }
+    
+    /**
+     * Constructor
+     */
     private MainWindow ()
     {
         setDefaultCloseOperation( DISPOSE_ON_CLOSE );
@@ -44,7 +64,6 @@ public class MainWindow
         menu.addSeparator();
         menu.add( getQuitMenuItem() );
 
-
         menuBar.add( menu );
 
         setMenuBar( menuBar );
@@ -60,11 +79,6 @@ public class MainWindow
         Runtime.getRuntime().exit( 0 );
     }
 
-    public static MainWindow getInstance ()
-    {
-        return INSTANCE;
-    }
-
     public GamePanel getGamePanel ()
     {
         if ( mGamePanel == null )
@@ -74,6 +88,9 @@ public class MainWindow
         return mGamePanel;
     }
 
+    /**
+     * @return the "New Game" Menu Item
+     */
     public MenuItem getNewGameMenuItem()
     {
         if ( mNewGameMenu == null )
@@ -87,7 +104,7 @@ public class MainWindow
                 {
                     // A compléter : Initialisation du GamePanel.
                     //
-                    getGamePanel().initialize( GameState.RUNNING );
+                    getGamePanel().initialize( GameState.RESTART );
                     
                     //////////////////////////////////
                 }
@@ -97,6 +114,9 @@ public class MainWindow
         return mNewGameMenu;
     }
 
+    /**
+     * @return the "Quit" Menu Item
+     */
     public MenuItem getQuitMenuItem()
     {
         if ( mQuitMenu == null )

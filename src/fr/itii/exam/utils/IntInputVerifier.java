@@ -1,10 +1,10 @@
 package fr.itii.exam.utils;
 
-import java.awt.Color;
-
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.text.JTextComponent;
+
+import fr.itii.exam.constants.GameColor;
 
 /**
  * Verifier for value entered in the given Parameter T
@@ -40,23 +40,23 @@ public final class IntInputVerifier< T extends JTextComponent >
         catch ( NumberFormatException e )
         {
             accept=  false;
-            
+
             // Check if "found"
             String inputText=( (JTextComponent) pInput).getText();
-            
+
             if (inputText.equals("found"))
             {
                 found=  true;
             }
-               
+
         }
         finally
         {
             pInput.setBackground( accept
-                                    ? Color.white
+                                    ? GameColor.DEFAULT_INPUT_BG.getColor()
                                     : found
-                                        ? Color.blue
-                                        : Color.green );
+                                        ? GameColor.FOUND_INPUT_BG.getColor()
+                                        : GameColor.INVALID_INPUT_BG.getColor() );
         }
         return accept;
     }
