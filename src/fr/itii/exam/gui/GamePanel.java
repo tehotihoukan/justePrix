@@ -161,13 +161,13 @@ public final class GamePanel
                         else
                         {
                             ////////////////////////////////////////////////////
-                            // 2. A compléter et à reporter sur la copie :
+                            // TODO Question 2. A compléter et à reporter sur la copie :
                             // 
                             // écrire le code nécessaire afin d'afficher les messages suivants en cas de réussite
                             // (ici l'exemple est donné pour une réussite après 11 essais) :
                             //
-                            // Found !
-                            // Number of tries : 11
+                            //  Found !
+                            //  Number of tries : 11
                             //
 
                             getResultTextArea().append( OutPutMessages.FOUND.getOutPutMessage() );
@@ -177,12 +177,15 @@ public final class GamePanel
                             
 
                             ////////////////////////////////////////////////////
-                            // 3. A compléter et à reporter sur la copie :
+                            // TODO Question 3. A compléter et à reporter sur la copie :
                             //
-                            // De même, vous devez penser à réinitialiser le Game Panel
+                            // De même, vous devez initialiser le Game Panel dans un l'état 
+                            // correspond à une partie terminée
+                            //
 
                             initialize( GameState.END );
-                            
+                            Thread thd=  new Thread();
+                            thd.start();
                             ////////////////////////////////////////////////////
                         }
                         TRY ++;

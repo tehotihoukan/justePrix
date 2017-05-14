@@ -10,7 +10,7 @@ public class Launcher
 {
 
     ////////////////////////////////////////////////////
-    // 1. A compléter et à reporter sur la copie :
+    // TODO Question 1. A compléter et à reporter sur la copie :
     // 
     // écrire le "main" de l'application
     //

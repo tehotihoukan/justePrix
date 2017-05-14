@@ -5,6 +5,7 @@ import javax.swing.JComponent;
 import javax.swing.text.JTextComponent;
 
 import fr.itii.exam.constants.GameColor;
+import fr.itii.exam.constants.GameLabel;
 
 /**
  * Verifier for value entered in the given Parameter T
@@ -44,7 +45,7 @@ public final class IntInputVerifier< T extends JTextComponent >
             // Check if "found"
             String inputText=( (JTextComponent) pInput).getText();
 
-            if (inputText.equals("found"))
+            if (inputText.equals( GameLabel.PROPOSAL_ENTER_A_VALUE.getLabel() ))
             {
                 found=  true;
             }

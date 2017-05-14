@@ -1,6 +1,5 @@
 package fr.itii.exam.gui;
 
-import java.awt.Color;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
@@ -10,6 +9,8 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import fr.itii.exam.constants.GameColor;
+import fr.itii.exam.constants.GameLabel;
 import fr.itii.exam.constants.GameState;
 
 /**
@@ -52,13 +53,13 @@ public class MainWindow
         setDefaultCloseOperation( DISPOSE_ON_CLOSE );
         
         setIconImage( (new ImageIcon("images/icon.png")).getImage() );
-        setTitle( "Less / Greater game" );
+        setTitle( GameLabel.TITLE.getLabel() );
         setVisible( true );
         setSize( 400, 400 );
         setLocationRelativeTo( null );
 
         MenuBar menuBar=  new MenuBar();
-        Menu menu=  new Menu("Menu");
+        Menu menu=  new Menu( GameLabel.MENU_TITLE.getLabel() );
 
         menu.add( getNewGameMenuItem() );
         menu.addSeparator();
@@ -68,8 +69,16 @@ public class MainWindow
 
         setMenuBar( menuBar );
 
+        ////////////////////////////////////////////////////
+        // TODO Question 4. A compléter et à reporter sur la copie :
+        // 
+        // ajouter le Game Panel au Content Pane.
+        //
         setContentPane( getGamePanel() );
-        setBackground( Color.darkGray );
+        ////////////////////////////////////////////////////
+
+        
+        setBackground( GameColor.MAIN_WINDOW_BG.getColor() );
 
         revalidate();
     }
@@ -95,18 +104,14 @@ public class MainWindow
     {
         if ( mNewGameMenu == null )
         {
-            mNewGameMenu=  new MenuItem( "New Game" );
+            mNewGameMenu=  new MenuItem( GameLabel.MENU_ITEM_NEW_GAME.getLabel() );
             mNewGameMenu.addActionListener( new ActionListener()
             {
 
                 @Override
                 public void actionPerformed ( ActionEvent e )
                 {
-                    // A compléter : Initialisation du GamePanel.
-                    //
                     getGamePanel().initialize( GameState.RESTART );
-                    
-                    //////////////////////////////////
                 }
             } );
 
@@ -121,12 +126,12 @@ public class MainWindow
     {
         if ( mQuitMenu == null )
         {
-            mQuitMenu=  new MenuItem( "Quit" );
+            mQuitMenu=  new MenuItem( GameLabel.MENU_ITEM_QUIT.getLabel() );
             mQuitMenu.addActionListener(
                 new ActionListener()
                 {
                     @Override
-                    public void actionPerformed ( ActionEvent arg0 )
+                    public void actionPerformed ( ActionEvent actionEvent )
                     {
                         MainWindow.getInstance().close();
                     }
