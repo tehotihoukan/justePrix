@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import fr.itii.exam.constants.GameColor;
+import fr.itii.exam.constants.GameLabel;
 import fr.itii.exam.constants.GameState;
 import fr.itii.exam.constants.OutPutMessages;
 import fr.itii.exam.utils.IntInputVerifier;
@@ -35,8 +36,8 @@ public final class GamePanel
     private JTextField mProposalTextField;
     private JTextArea mResultTextArea;
 
-    private final JLabel mProposalLabel=  new JLabel( "My proposal :");
-    private final JLabel mMinLabel=  new JLabel( MIN_VALUE + " <");
+    private final JLabel mProposalLabel=  new JLabel( GameLabel.PROPOSAL_LABEL.getLabel() );
+    private final JLabel mMinLabel=  new JLabel( MIN_VALUE + " <" );
     private final JLabel mMaxLabel=  new JLabel( "< " + MAX_VALUE );
 
     static final int MAX_VALUE=  1000;
@@ -109,7 +110,7 @@ public final class GamePanel
     {
         if ( mProposalTextField == null )
         {
-            mProposalTextField=  new JTextField("");
+            mProposalTextField=  new JTextField(GameLabel.EMPTY.getLabel());
             
             /** Verifier that ensures the value entered by user is correct **/
             final IntInputVerifier<JTextField> inputVerifier=  new IntInputVerifier<JTextField>( MIN_VALUE, MAX_VALUE );
@@ -130,7 +131,7 @@ public final class GamePanel
                 }
 
                 @Override
-                public void keyReleased ( final KeyEvent pKey )
+                public void keyReleased ( final KeyEvent pKey ) 
                 {
                     // Nothing
                 }
@@ -222,21 +223,21 @@ public final class GamePanel
     {
         // A compléter : initialization des composants, des valeurs etc...
         //
-        mProposalTextField.setText("");
+        mProposalTextField.setText(GameLabel.EMPTY.getLabel());
 
         switch( gameState )
         {
             case START :
-                mProposalTextField.setText("enter a value");
+                mProposalTextField.setText( GameLabel.PROPOSAL_ENTER_A_VALUE.getLabel() );
             case RESTART :              
                 mValueToFind=  generateValue();
-                mResultTextArea.setText("");
+                mResultTextArea.setText(GameLabel.EMPTY.getLabel());
                 mProposalTextField.setBackground( GameColor.DEFAULT_INPUT_BG.getColor() );
                 mProposalTextField.setEnabled( true );
                 TRY=0;
                 break;
             case END:
-                mProposalTextField.setText("found");
+                mProposalTextField.setText(GameLabel.PROPOSAL_VALUE_FOUND.getLabel());
                 mProposalTextField.setEnabled( false );
                 break;
         }

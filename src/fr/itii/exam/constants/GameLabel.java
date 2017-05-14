@@ -3,6 +3,7 @@ package fr.itii.exam.constants;
 public enum GameLabel
 {
 
+    EMPTY(""),
     TITLE("Less / Greater game"),
     MENU_TITLE( "Menu"),
     
