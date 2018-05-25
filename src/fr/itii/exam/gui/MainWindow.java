@@ -29,29 +29,29 @@ public class MainWindow
 
     /** Menu item for quitting the game **/
     private MenuItem mQuitMenu;
-    
+
     /** Menu item for starting a new the game **/
     private MenuItem mNewGameMenu;
-    
+
     /** Main panel contained by the ContentPane of the current MainWindow **/
     private GamePanel mGamePanel;
 
     /**
      * Getter on the MainWindow Singleton
-     * @return the MainWindow Singleton 
+     * @return the MainWindow Singleton
      */
     public static MainWindow getInstance ()
     {
         return INSTANCE;
     }
-    
+
     /**
      * Constructor
      */
     private MainWindow ()
     {
-        setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
         setIconImage( (new ImageIcon("images/icon.png")).getImage() );
         setTitle( GameLabel.TITLE.getLabel() );
         setVisible( true );
@@ -71,13 +71,15 @@ public class MainWindow
 
         ////////////////////////////////////////////////////
         // TODO Question 4. A compléter et à reporter sur la copie :
-        // 
+        //
         // ajouter le Game Panel au Content Pane.
         //
+
         setContentPane( getGamePanel() );
+
         ////////////////////////////////////////////////////
 
-        
+
         setBackground( GameColor.MAIN_WINDOW_BG.getColor() );
 
         revalidate();

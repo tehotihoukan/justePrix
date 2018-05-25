@@ -1,6 +1,7 @@
 package fr.itii.exam.gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -10,14 +11,20 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.Document;
 
 import fr.itii.exam.constants.GameColor;
 import fr.itii.exam.constants.GameLabel;
 import fr.itii.exam.constants.GameState;
 import fr.itii.exam.constants.OutPutMessages;
+import fr.itii.exam.toolkit.KTextField;
 import fr.itii.exam.utils.IntInputVerifier;
 
 /**
@@ -31,18 +38,23 @@ public final class GamePanel
      * Unic ID for serialization
      */
     private static final long serialVersionUID = -129016078586290502L;
-    
-    
-    private JTextField mProposalTextField;
+
+
+    private KTextField mProposalTextField;
     private JTextArea mResultTextArea;
 
-    private final JLabel mProposalLabel=  new JLabel( GameLabel.PROPOSAL_LABEL.getLabel() );
-    private final JLabel mMinLabel=  new JLabel( MIN_VALUE + " <" );
-    private final JLabel mMaxLabel=  new JLabel( "< " + MAX_VALUE );
+    private JLabel mProposalLabel;
+    private JLabel mMinLabel;
+    private JLabel mMaxLabel;
 
     static final int MAX_VALUE=  1000;
     static final int MIN_VALUE=  0;
 
+    
+    static final int PROPOSAL_MIN_SIZE= 20;
+    static final int PROPOSAL_PREFERRED_SIZE= 30;
+    static final int PROPOSAL_HEIGHT_SIZE= 40;
+    
     static int TRY= 0;
 
     private int mValueToFind;
@@ -50,7 +62,7 @@ public final class GamePanel
     public GamePanel ()
     {
         final GridBagLayout gbl=  new GridBagLayout();
-        
+
         this.setLayout( gbl );
 
         int row=  0;
@@ -58,90 +70,137 @@ public final class GamePanel
         GridBagConstraints c = new GridBagConstraints();
 
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth= 2;
-        c.weightx = 1;
-        c.weighty = 0.0;
         c.gridx = 0;
         c.gridy = row;
-        mProposalLabel.setHorizontalAlignment( SwingConstants.RIGHT );
-        add( mProposalLabel, c );
+        c.gridwidth= 1;
+        c.weightx = 1;
+        add( getProposalLabel(), c );
+
+        c.gridx = 1;
+        c.gridy = row;
+        c.gridwidth= 1;
+        c.weightx = 1;
+        add( getMinLabel(), c );
 
         c.gridx = 2;
+        c.gridy = row;
         c.gridwidth= 1;
         c.weightx = 1;
-        c.gridy = row;
-        mMinLabel.setHorizontalAlignment( SwingConstants.RIGHT );
-        add( mMinLabel, c );
-
-        c.gridx = 3;
-        c.gridwidth= 1;
-        c.weightx = 1;
-        c.gridy = row;
         add( getProposalTextField(), c );
 
-        c.gridx = 4;
+        c.gridx = 3;
+        c.gridy = row;
         c.gridwidth= 1;
         c.weightx = 1;
-        c.gridy = row;
-        mMaxLabel.setHorizontalAlignment( SwingConstants.LEFT );
-        add( mMaxLabel , c );
-
+        add( getMaxLabel() , c );
 
         c.fill = GridBagConstraints.BOTH;
-        c.gridwidth= 5;
+        c.gridx = 0;
+        c.gridy = ++row;
+        c.gridwidth= 4;
         c.gridheight= 0;
         c.weightx = 1;
         c.weighty = 1;
-        c.gridx = 0;
-        c.gridy = ++row;
 
-
-        add( getResultTextArea(), c );
+        add( new JScrollPane( getResultTextArea() ), c );
 
         setBackground( Color.gray );
 
         initialize( GameState.START );
-        
+
         repaint();
         validate();
     }
-
-    public JTextField getProposalTextField()
+    
+    public final JLabel  getProposalLabel()
     {
+        if ( mProposalLabel  == null )
+        {
+            mProposalLabel =  new JLabel( GameLabel.PROPOSAL_LABEL.getLabel() );            
+            mProposalLabel.setPreferredSize( new Dimension(PROPOSAL_PREFERRED_SIZE, PROPOSAL_HEIGHT_SIZE));
+            mProposalLabel.setMinimumSize( new Dimension(PROPOSAL_MIN_SIZE, PROPOSAL_HEIGHT_SIZE));
+            mProposalLabel.setHorizontalAlignment( SwingConstants.RIGHT );
+        }
+        return mProposalLabel;
+    }
+    
+    public final JLabel getMinLabel()
+    {
+        if ( mMinLabel == null )
+        {
+            mMinLabel=  new JLabel( MIN_VALUE + " <" );
+            mMinLabel.setPreferredSize( new Dimension(PROPOSAL_PREFERRED_SIZE, PROPOSAL_HEIGHT_SIZE));
+            mMinLabel.setMinimumSize( new Dimension(PROPOSAL_MIN_SIZE, PROPOSAL_HEIGHT_SIZE));
+            mMinLabel.setHorizontalAlignment( SwingConstants.RIGHT );
+        }
+        return mMinLabel;
+    }
+    
+    public final JLabel getMaxLabel()
+    {
+        if ( mMaxLabel == null )
+        {
+            mMaxLabel=  new JLabel( "< " + MAX_VALUE );
+            mMaxLabel.setPreferredSize( new Dimension(PROPOSAL_PREFERRED_SIZE, PROPOSAL_HEIGHT_SIZE));
+            mMaxLabel.setMinimumSize(new Dimension(PROPOSAL_MIN_SIZE, PROPOSAL_HEIGHT_SIZE));     
+            mMaxLabel.setHorizontalAlignment( SwingConstants.LEFT );
+        }
+        return mMaxLabel;
+    }
+    
+    
+    public KTextField getProposalTextField()
+    {
+        
+        
+        int i=0;
+        i += ++i;
+        
+        
+        System.out.println(i);
+        
         if ( mProposalTextField == null )
         {
-            mProposalTextField=  new JTextField(GameLabel.EMPTY.getLabel());
-            
+            mProposalTextField=  new KTextField(GameLabel.EMPTY.getLabel());
+
             /** Verifier that ensures the value entered by user is correct **/
             final IntInputVerifier<JTextField> inputVerifier=  new IntInputVerifier<JTextField>( MIN_VALUE, MAX_VALUE );
 
             mProposalTextField.setInputVerifier( inputVerifier );
 
-            mProposalTextField.addKeyListener( new KeyListener()
+            final Document doc=  mProposalTextField.getDocument();
+            if (doc instanceof AbstractDocument) 
             {
-
-                @Override
-                public void keyTyped ( final KeyEvent pKey )
-                {
-                    if (    ( pKey.getKeyChar() < KeyEvent.VK_0 )
-                         || ( pKey.getKeyChar() > KeyEvent.VK_9   ) )
-                    {
-                        pKey.consume();
-                    }
-                }
-
-                @Override
-                public void keyReleased ( final KeyEvent pKey ) 
-                {
-                    // Nothing
-                }
-
-                @Override
-                public void keyPressed ( final KeyEvent pKey )
-                {
-                   // Nothing
-                }
-            });
+                AbstractDocument abstractDoc = (AbstractDocument) doc;
+                abstractDoc.setDocumentFilter( new DocumentInputFilter(5) );
+            }
+//            
+//            mProposalTextField.addKeyListener( new KeyListener()
+//            {
+//
+//                @Override
+//                public void keyTyped ( final KeyEvent pKey )
+//                {
+//                    if (    ( pKey.getKeyChar() < KeyEvent.VK_0 )
+//                         || ( pKey.getKeyChar() > KeyEvent.VK_9   ) )
+//                    {
+//                        pKey.consume();
+//                    }
+//                    
+//                }
+//
+//                @Override
+//                public void keyReleased ( final KeyEvent pKey )
+//                {
+//                    // Nothing
+//                }
+//
+//                @Override
+//                public void keyPressed ( final KeyEvent pKey )
+//                {
+//                   // Nothing
+//                }
+//            });
 
             mProposalTextField.addActionListener( new ActionListener()
             {
@@ -163,7 +222,7 @@ public final class GamePanel
                         {
                             ////////////////////////////////////////////////////
                             // TODO Question 2. A compléter et à reporter sur la copie :
-                            // 
+                            //
                             // écrire le code nécessaire afin d'afficher les messages suivants en cas de réussite
                             // (ici l'exemple est donné pour une réussite après 11 essais) :
                             //
@@ -173,20 +232,19 @@ public final class GamePanel
 
                             getResultTextArea().append( OutPutMessages.FOUND.getOutPutMessage() );
                             getResultTextArea().append( OutPutMessages.TRY.getOutPutMessage( Integer.toString( TRY ) ) );
-                            
+
                             ////////////////////////////////////////////////////
-                            
+
 
                             ////////////////////////////////////////////////////
                             // TODO Question 3. A compléter et à reporter sur la copie :
                             //
-                            // De même, vous devez initialiser le Game Panel dans un l'état 
+                            // De même, vous devez initialiser le Game Panel dans un l'état
                             // correspond à une partie terminée
                             //
 
                             initialize( GameState.END );
-                            Thread thd=  new Thread();
-                            thd.start();
+
                             ////////////////////////////////////////////////////
                         }
                         TRY ++;
@@ -207,7 +265,7 @@ public final class GamePanel
         //
         if ( mResultTextArea == null )
         {
-            mResultTextArea= new JTextArea(); 
+            mResultTextArea= new JTextArea();
             mResultTextArea.setEditable(false);
         }
         return mResultTextArea;
@@ -215,7 +273,7 @@ public final class GamePanel
     }
 
     /**
-     * This method enables / disables some components depending on 
+     * This method enables / disables some components depending on
      * the given game state (game is being started or ended).
      * @param gameState is a state of the current game
      */
@@ -229,7 +287,7 @@ public final class GamePanel
         {
             case START :
                 mProposalTextField.setText( GameLabel.PROPOSAL_ENTER_A_VALUE.getLabel() );
-            case RESTART :              
+            case RESTART :
                 mValueToFind=  generateValue();
                 mResultTextArea.setText(GameLabel.EMPTY.getLabel());
                 mProposalTextField.setBackground( GameColor.DEFAULT_INPUT_BG.getColor() );

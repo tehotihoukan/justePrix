@@ -14,12 +14,11 @@ import fr.itii.exam.constants.GameLabel;
 public final class IntInputVerifier< T extends JTextComponent >
     extends InputVerifier
 {
-
     private final int mMin;
     private final int mMax;
 
     public IntInputVerifier ( final int pMin,
-                              final int pMax )
+                              final int pMax)
     {
         super();
         mMin=  pMin;
@@ -45,7 +44,7 @@ public final class IntInputVerifier< T extends JTextComponent >
             // Check if "found"
             String inputText=( (JTextComponent) pInput).getText();
 
-            if (inputText.equals( GameLabel.PROPOSAL_ENTER_A_VALUE.getLabel() ))
+            if ( GameLabel.PROPOSAL_VALUE_FOUND.getLabel().equals( inputText ) )
             {
                 found=  true;
             }
