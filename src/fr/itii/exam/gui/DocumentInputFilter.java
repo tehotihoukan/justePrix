@@ -1,13 +1,17 @@
 package fr.itii.exam.gui;
 
+import javax.swing.InputVerifier;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+import fr.itii.exam.constants.GameLabel;
+import fr.itii.exam.utils.IntInputVerifier;
+
 public class DocumentInputFilter extends DocumentFilter
 {
     int maxCharacters;
-    boolean DEBUG = false;
+    
 
     public DocumentInputFilter(int maxChars)
     {
@@ -20,7 +24,7 @@ public class DocumentInputFilter extends DocumentFilter
                               final AttributeSet  pAttributeSet )
         throws BadLocationException
     {
-        if (DEBUG)
+        if (IntInputVerifier.DEBUG)
         {
             System.out.println("in DocumentSizeFilter's insertString method");
         }
@@ -40,7 +44,7 @@ public class DocumentInputFilter extends DocumentFilter
                          final AttributeSet  pAttributeSet)
         throws BadLocationException
     {
-        if (DEBUG)
+        if (IntInputVerifier.DEBUG)
         {
             System.out.println("in DocumentSizeFilter's replace method");
         }
@@ -68,14 +72,32 @@ public class DocumentInputFilter extends DocumentFilter
     private static boolean isValidInteger( String pString )
     {
         boolean result=  false;
-        try
+        
+        // Check if the value is one of the allowed Game Labels
+        if ( GameLabel.EMPTY_VALUE.getLabel().equals(pString))
         {
-            int value=  Integer.parseInt( pString );
-            result=  true;
+            result = true;
         }
-        catch ( NumberFormatException e )
+        else if (GameLabel.PROPOSAL_ENTER_A_VALUE.getLabel().equals(pString))
         {
-            result=  false;
+            result = true;
+        }
+        else if ( GameLabel.PROPOSAL_VALUE_FOUND.getLabel().equals(pString))
+        {
+            result = true;
+        }
+        else
+        {
+            // Check if the value is a number
+            try
+            {
+                int value=  Integer.parseInt( pString );
+                result=  true;
+            }
+            catch ( NumberFormatException e )
+            {
+                result=  false;
+            }
         }
         return result;
     }

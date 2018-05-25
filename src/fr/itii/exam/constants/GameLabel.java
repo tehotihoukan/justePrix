@@ -3,6 +3,7 @@ package fr.itii.exam.constants;
 public enum GameLabel
 {
 
+    EMPTY_VALUE("     "),
     EMPTY(""),
     TITLE("Less / Greater game"),
     MENU_TITLE( "Menu"),
@@ -12,7 +13,7 @@ public enum GameLabel
     MENU_ITEM_QUIT( "Quit"),
     
     PROPOSAL_LABEL( "My proposal :" ),
-    PROPOSAL_ENTER_A_VALUE( "Enter a value" ),
+    PROPOSAL_ENTER_A_VALUE( "???" ),
     PROPOSAL_VALUE_FOUND( "Found" ),
 
     ;

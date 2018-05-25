@@ -17,6 +17,9 @@ public final class IntInputVerifier< T extends JTextComponent >
     private final int mMin;
     private final int mMax;
 
+    
+    public static boolean DEBUG = true;
+    
     public IntInputVerifier ( final int pMin,
                               final int pMax)
     {
@@ -28,8 +31,12 @@ public final class IntInputVerifier< T extends JTextComponent >
     @Override
     public boolean verify ( final JComponent pInput )
     {
-        boolean accept=  ( (JTextComponent) pInput).getText().isEmpty() ;
+        String text= ((JTextComponent) pInput).getText();
+        
+        System.out.println("verify :" + text);
+        boolean accept=  false;
         boolean found=  false;
+
         try
         {
             int value=  Integer.parseInt( ( (JTextComponent) pInput).getText() );

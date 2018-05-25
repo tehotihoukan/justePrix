@@ -161,7 +161,7 @@ public final class GamePanel
         
         if ( mProposalTextField == null )
         {
-            mProposalTextField=  new KTextField(GameLabel.EMPTY.getLabel());
+            mProposalTextField=  new KTextField(GameLabel.EMPTY_VALUE.getLabel());
 
             /** Verifier that ensures the value entered by user is correct **/
             final IntInputVerifier<JTextField> inputVerifier=  new IntInputVerifier<JTextField>( MIN_VALUE, MAX_VALUE );
@@ -174,33 +174,6 @@ public final class GamePanel
                 AbstractDocument abstractDoc = (AbstractDocument) doc;
                 abstractDoc.setDocumentFilter( new DocumentInputFilter(5) );
             }
-//            
-//            mProposalTextField.addKeyListener( new KeyListener()
-//            {
-//
-//                @Override
-//                public void keyTyped ( final KeyEvent pKey )
-//                {
-//                    if (    ( pKey.getKeyChar() < KeyEvent.VK_0 )
-//                         || ( pKey.getKeyChar() > KeyEvent.VK_9   ) )
-//                    {
-//                        pKey.consume();
-//                    }
-//                    
-//                }
-//
-//                @Override
-//                public void keyReleased ( final KeyEvent pKey )
-//                {
-//                    // Nothing
-//                }
-//
-//                @Override
-//                public void keyPressed ( final KeyEvent pKey )
-//                {
-//                   // Nothing
-//                }
-//            });
 
             mProposalTextField.addActionListener( new ActionListener()
             {
@@ -210,6 +183,8 @@ public final class GamePanel
 
                     if ( inputVerifier.verify(mProposalTextField) )
                     {
+                        TRY ++;
+
                         if ( Integer.parseInt( mProposalTextField.getText() ) > mValueToFind )
                         {
                             getResultTextArea().append( OutPutMessages.LESS.getOutPutMessage() );
@@ -247,7 +222,6 @@ public final class GamePanel
 
                             ////////////////////////////////////////////////////
                         }
-                        TRY ++;
                     }
                     else
                     {
@@ -281,22 +255,25 @@ public final class GamePanel
     {
         // A compléter : initialization des composants, des valeurs etc...
         //
-        mProposalTextField.setText(GameLabel.EMPTY.getLabel());
 
         switch( gameState )
         {
             case START :
-                mProposalTextField.setText( GameLabel.PROPOSAL_ENTER_A_VALUE.getLabel() );
             case RESTART :
+                getProposalTextField().setText( GameLabel.PROPOSAL_ENTER_A_VALUE.getLabel() );
+                getResultTextArea().setText( GameLabel.EMPTY.getLabel() );
                 mValueToFind=  generateValue();
-                mResultTextArea.setText(GameLabel.EMPTY.getLabel());
-                mProposalTextField.setBackground( GameColor.DEFAULT_INPUT_BG.getColor() );
-                mProposalTextField.setEnabled( true );
+                if (IntInputVerifier.DEBUG)
+                {
+                    System.out.println("mValueToFind : " + mValueToFind);
+                }
+                getProposalTextField().setBackground( GameColor.DEFAULT_INPUT_BG.getColor() );
+                getProposalTextField().setEnabled( true );
                 TRY=0;
                 break;
             case END:
-                mProposalTextField.setText(GameLabel.PROPOSAL_VALUE_FOUND.getLabel());
-                mProposalTextField.setEnabled( false );
+                getProposalTextField().setBackground( GameColor.DEFAULT_INPUT_BG.getColor() );
+                getProposalTextField().setEnabled( false );
                 break;
         }
         //

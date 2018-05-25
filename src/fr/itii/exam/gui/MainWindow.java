@@ -113,7 +113,15 @@ public class MainWindow
                 @Override
                 public void actionPerformed ( ActionEvent e )
                 {
+                    ////////////////////////////////////////////////////
+                    // TODO Question 5. A compléter et à reporter sur la copie :
+                    //
+                    // ajouter le code réinitialisant la partie.
+                    //
+
                     getGamePanel().initialize( GameState.RESTART );
+
+                    ////////////////////////////////////////////////////
                 }
             } );
 
