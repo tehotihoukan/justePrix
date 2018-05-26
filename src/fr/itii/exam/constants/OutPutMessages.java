@@ -13,7 +13,7 @@ public enum OutPutMessages
     VALUE_CALCULATED ( "Find the value"             ),
     LESS             ( "Less"                       ),
     GREATER          ( "Greater"                    ),
-    FOUND            ( "Found !"                    ),
+    FOUND            ( "Value : %1$2s"              ), // Message supporting formatter.
     TRY              ( "Number of tries : %1$2s"    ); // Message supporting formatter.
 
     
@@ -54,6 +54,6 @@ public enum OutPutMessages
      */
     public String getOutPutMessage( final String pInPut )
     {
-        return String.format( mMessage, pInPut );
+        return String.format( mMessage + "\n", pInPut );
     }
 }

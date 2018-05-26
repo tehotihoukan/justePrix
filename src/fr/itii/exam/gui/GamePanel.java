@@ -152,13 +152,6 @@ public final class GamePanel
     public KTextField getProposalTextField()
     {
         
-        
-        int i=0;
-        i += ++i;
-        
-        
-        System.out.println(i);
-        
         if ( mProposalTextField == null )
         {
             mProposalTextField=  new KTextField(GameLabel.EMPTY_VALUE.getLabel());
@@ -205,7 +198,7 @@ public final class GamePanel
                             //  Number of tries : 11
                             //
 
-                            getResultTextArea().append( OutPutMessages.FOUND.getOutPutMessage() );
+                            getResultTextArea().append( OutPutMessages.FOUND.getOutPutMessage( Integer.toString( mValueToFind) ) );
                             getResultTextArea().append( OutPutMessages.TRY.getOutPutMessage( Integer.toString( TRY ) ) );
 
                             ////////////////////////////////////////////////////
@@ -272,6 +265,7 @@ public final class GamePanel
                 TRY=0;
                 break;
             case END:
+                getProposalTextField().setText( GameLabel.PROPOSAL_VALUE_FOUND.getLabel() );
                 getProposalTextField().setBackground( GameColor.DEFAULT_INPUT_BG.getColor() );
                 getProposalTextField().setEnabled( false );
                 break;

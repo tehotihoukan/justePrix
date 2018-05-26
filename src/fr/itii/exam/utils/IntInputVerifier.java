@@ -33,7 +33,11 @@ public final class IntInputVerifier< T extends JTextComponent >
     {
         String text= ((JTextComponent) pInput).getText();
         
-        System.out.println("verify :" + text);
+        if (IntInputVerifier.DEBUG)
+        {
+            System.out.println("verify :" + text);
+        }
+        
         boolean accept=  false;
         boolean found=  false;
 

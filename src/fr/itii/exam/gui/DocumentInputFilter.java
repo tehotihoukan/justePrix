@@ -1,6 +1,5 @@
 package fr.itii.exam.gui;
 
-import javax.swing.InputVerifier;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
