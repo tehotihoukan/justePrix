@@ -192,10 +192,10 @@ public final class GamePanel
                             // TODO Question 2. A compléter et à reporter sur la copie :
                             //
                             // écrire le code nécessaire afin d'afficher les messages suivants en cas de réussite
-                            // (ici l'exemple est donné pour une réussite après 11 essais) :
+                            // (ici l'exemple est donné pour une réussite après 15 essais et une valeur à trouver de 250) :
                             //
-                            //  Found !
-                            //  Number of tries : 11
+                            //  Value : 250
+                            //  Number of tries : 15
                             //
 
                             getResultTextArea().append( OutPutMessages.FOUND.getOutPutMessage( Integer.toString( mValueToFind) ) );
@@ -207,8 +207,8 @@ public final class GamePanel
                             ////////////////////////////////////////////////////
                             // TODO Question 3. A compléter et à reporter sur la copie :
                             //
-                            // De même, vous devez initialiser le Game Panel dans un l'état
-                            // correspond à une partie terminée
+                            // De même, vous devez initialiser le Game Panel dans l'état
+                            // correspondant à une partie terminée
                             //
 
                             initialize( GameState.END );
